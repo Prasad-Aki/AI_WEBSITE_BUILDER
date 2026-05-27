@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     plans: {
         type: String,
         enum: ["free", "pro", "enterprice"],
-        default: free
+        default: "free"
     }
 }, { timestamps: true })
 
