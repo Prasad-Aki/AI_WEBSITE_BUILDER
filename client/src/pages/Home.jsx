@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { motion } from "motion/react"
+import LoginModel from "../components/LoginModel"
 
 function Home() {
 
@@ -8,6 +9,8 @@ function Home() {
         "Fully Responsive Layouts",
         "Production Ready Output",
     ]
+
+    const [openLogin, SetopenLogin] = useState(false)
 
     return (
         <div className="relative min-h-screen bg-[#040404] text-white overflow-hidden">
@@ -24,19 +27,19 @@ function Home() {
                         <div className="hidden md:inline text-zinc-400 hover:text-white cursor-pointer">
                             Pricing
                         </div>
-                        <button className="px-4 py-2 rounded-lg border border-white/20 cursor-pointer hover:border-white/10 text-sm">
+                        <button onClick={() => { SetopenLogin(true) }} className="px-4 py-2 rounded-lg border border-white/20 cursor-pointer hover:border-white/10 text-sm">
                             Get Started
                         </button>
                     </div>
                 </div>
-            </motion.div>  
+            </motion.div>
 
             <section className="pt-44 pb-32 text-center">
                 <motion.h1
                     initial={{ y: 40, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     className="text-5xl md:text-7xl font-bold tracking-tight">Build Stunning websites <br />
-                    <span className="bg-linear-to-r form bg-purple-400 blue-400 bg-clip-text text-transparent">With AI</span>
+                    <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">With AI</span>
                 </motion.h1>
                 <motion.p
                     initial={{ y: -40, opacity: 0 }}
@@ -46,11 +49,11 @@ function Home() {
                     responsive, productive-ready website.
                 </motion.p>
 
-                <button className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
+                <button onClick={() => { SetopenLogin(true) }} className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
                     Get Started
                 </button>
 
-            </section>   
+            </section>
 
             <section className="max-w-7xl mx-auto px-6 py-32">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -73,6 +76,8 @@ function Home() {
             <footer className="border-t border-white/10 py-10 text-sm text-center text-zinc-500">
                 &copy; {new Date().getFullYear()} GenWeb.ai
             </footer>
+
+            {openLogin && <LoginModel open={openLogin} onClose={() => { SetopenLogin(false) }} />}
         </div>
     )
 }
