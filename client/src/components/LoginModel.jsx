@@ -4,8 +4,11 @@ import { signInWithPopup } from "firebase/auth"
 import { auth, provider } from "../firebase"
 import axios from "axios"
 import { serverUrl } from "../App"
+import { setuserData } from "../redux/userSlice.js"
+import { useDispatch } from "react-redux"
 
 function LoginModel({ open, onClose }) {
+    const dispatch = useDispatch()
 
     const handleGoogleAuth = async () => {
         try {
@@ -15,6 +18,8 @@ function LoginModel({ open, onClose }) {
                 email: result.user.email,
                 avatar: result.user.photoURL
             }, { withCredentials: true })
+            dispatch(setuserData(data))
+            onClose()
         } catch (error) {
             console.log(error)
         }
