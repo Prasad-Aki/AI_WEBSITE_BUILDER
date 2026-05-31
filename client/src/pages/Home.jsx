@@ -6,6 +6,7 @@ import { Coins } from "lucide-react"
 import axios from "axios"
 import { serverUrl } from "../App"
 import { setuserData } from "../redux/userSlice.js"
+import { useNavigate } from "react-router-dom"
 
 function Home() {
 
@@ -19,6 +20,7 @@ function Home() {
     const [openProfile, SetopenProfile] = useState(false)
     const dispatch = useDispatch()
     const { userData } = useSelector(state => state.user)
+    const navigate = useNavigate()
 
     const handleLogOut = async () => {
         try {
@@ -73,7 +75,7 @@ function Home() {
                                                     <p className="text-sm font-medium truncate">{userData.name}</p>
                                                     <p className="text-sx text-zinc-300 truncate">{userData.email}</p>
                                                 </div>
-                                                <button className="w-full px-4 py-3 text-left text-sm hover:bg-white/5 ">
+                                                <button onClick={() => navigate("/dashboard")} className="w-full px-4 py-3 text-left text-sm hover:bg-white/5 ">
                                                     Dashboard
                                                 </button>
                                                 <button onClick={handleLogOut} className="w-full px-4 py-3 text-left text-red-400 text-sm hover:bg-white/5">
@@ -104,8 +106,8 @@ function Home() {
                     responsive, productive-ready website.
                 </motion.p>
 
-                <button onClick={() => { SetopenLogin(true) }} className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
-                    Get Started
+                <button onClick={() => navigate("/dashboard")} className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
+                    {userData?"Go to Dashboard":"Get Started"}
                 </button>
 
             </section>
