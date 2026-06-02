@@ -46,6 +46,7 @@ function Home() {
                         <div className="hidden md:inline text-zinc-400 hover:text-white cursor-pointer">
                             Pricing
                         </div>
+                        
                         {userData && <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5
                         border border-white/5 text-sm cursor-pointer hover:bg-white/10 transition">
                             <Coins className="text-yellow-400" />
