@@ -173,10 +173,10 @@ export const generateWebiste = async (req, res) => {
         for (let i = 0; i < 2 && !parsed; i++) {
             rawres = await generateResponse(finalPrompt)
             parsed = await extractJSON(rawres)
-       
+
             if (!parsed) {
 
-                raw = await generateResponse(finalPrompt)
+                rawres = await generateResponse(finalPrompt)
                 parsed = await extractJSON(rawres)
             }
         }
@@ -203,6 +203,21 @@ export const generateWebiste = async (req, res) => {
             remainingcredits: user.credits
         })
     } catch (error) {
-        return res.status(500).json({ message:`generate website error ${error}`})
+        return res.status(500).json({ message: `generate website error ${error}` })
+    }
+}
+
+export const getWebsiteById = async (req, res) => {
+    try {
+        const website = await Website.findOne({
+            _id: req.params.id,
+            user: req.user._id
+        })
+        if (!website) {
+            return res.status(400).json({ message: "website not found" })
+        }
+        return res.status(200).json(website)
+    } catch (error) {
+        return res.status(500).json({ message: `get website by id error ${error}` })
     }
 }
