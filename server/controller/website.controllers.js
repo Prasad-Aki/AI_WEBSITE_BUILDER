@@ -198,7 +198,7 @@ export const generateWebiste = async (req, res) => {
         })
         user.credits = user.credits - 50
         await user.save()
-        return res.status(200).json({
+        return res.status(201).json({
             websiteId: website._id,
             remainingcredits: user.credits
         })
@@ -219,5 +219,87 @@ export const getWebsiteById = async (req, res) => {
         return res.status(200).json(website)
     } catch (error) {
         return res.status(500).json({ message: `get website by id error ${error}` })
+    }
+}
+
+export const changes = async (req, res) => {
+    try {
+        const { prompt } = req.body
+        if (!prompt) {
+            return res.status(400).json({ message: "prompt required" })
+        }
+
+        const website = await Website.findOne({
+            _id: req.params.id,
+            user: req.user._id
+        })
+        if (!website) {
+            return res.status(400).json({ message: "website not found" })
+        }
+
+        const user = await User.findById(req.user._id)
+        if (!user) {
+            return res.status(400).json({ message: "user not found" })
+        }
+
+        if (user.credits < 25) {
+            return res.status(400).json({ message: "you not have enough credits " })
+        }
+
+        const updatePrompt = `
+    UPDATE THIS HTML WEBSITE.
+
+    CURRENT CODE:
+    ${website.latestCode}
+
+    USER REQUEST:
+    ${prompt}
+
+    RETURN RAW JSON ONLY:
+    {
+    "message": "Short confirmation",
+    "code": "<UPDATED FULL HTML>"
+    }
+    `
+        let rawres = ""
+        let parsed = null
+        for (let i = 0; i < 2 && !parsed; i++) {
+            rawres = await generateResponse(updatePrompt)
+            parsed = await extractJSON(rawres)
+
+            if (!parsed) {
+                rawres = await generateResponse(updatePrompt)
+                parsed = extractJSON(rawres)
+            }
+        }
+        if (!parsed.code || !parsed) {
+            console.log("ai returned invalid response")
+        }
+
+        website.conversation.push(
+            { role: "user", content: prompt },
+            { role: "ai", content: parsed.message }
+        )
+        website.latestCode = parsed.code
+        await website.save()
+
+        user.credits = user.credits - 25
+        await user.save()
+        return res.status(201).json({
+            message: parsed.message,
+            code: parsed.code,
+            remainingcredits: user.credits
+        })
+    } catch (error) {
+        return res.status(500).json({ message: `update website error ${error}` })
+    }
+}
+
+export const getAll = async (req, res) => {
+    try {
+        const websites = await Website.find({ user: req.user._id })
+        return res.status(200).json(websites)
+    } catch (error) {
+        return res.status(500).json({ message: "get all web error " })
     }
 }

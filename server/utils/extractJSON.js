@@ -11,7 +11,12 @@ const extractJSON = async (rawtext) => {
     if (firstbrace == -1 || closebrace == -1) return null
 
     const jsonStr = cleanedtext.slice(firstbrace, closebrace + 1)
-    return JSON.parse(jsonStr)
+    try {
+        return JSON.parse(jsonStr)
+    } catch (err) {
+        console.log("JSON PARSE FAILED")
+        return null
+    }
 }
 
 export default extractJSON
