@@ -15,18 +15,38 @@ function Editor() {
     const [code, Setcode] = useState("")
     const [messages, Setmessages] = useState([])
     const [prompt, Setprompt] = useState("")
+    const [updateLoading, SetupdateLoading] = useState(false)
+    const [thinkingidx, Setthinkingidx] = useState(0)
+    const thinkingSteps = [
+        "Understanding your request...",
+        "Planning layout changes...",
+        "Improving responsiveness...",
+        "Applying animations...",
+        "Finalizing update...",
+    ]
 
     const handelUpdate = async () => {
+        SetupdateLoading(true)
         Setmessages((m) => [...m, { role: "user", content: prompt }])
         Setprompt("")
         try {
             const result = await axios.post(`${serverUrl}/api/website/update/${id}`, { prompt }, { withCredentials: true })
+            SetupdateLoading(false)
             Setmessages((m) => [...m, { role: "ai", content: result.data.message }])
             Setcode(result.data.code)
         } catch (error) {
+            SetupdateLoading(false)
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        if (!updateLoading) return
+        const i = setInterval(() => {
+            Setthinkingidx((i) => (i + 1) % thinkingSteps.length)
+        }, 1200)
+        return () => clearInterval(i)
+    }, [updateLoading])
 
     useEffect(() => {
         const handelGetWebsite = async () => {
@@ -85,6 +105,12 @@ function Editor() {
                                 </div>
                             </div>
                         ))}
+
+                        {updateLoading && <div className='max-w-[85%] mr-auto'>
+                            <div className='px-4 py-2.5 rounded-2xl text-xs bg-white/5 border border-white/10 text-zinc-400 italic'>
+                                {thinkingSteps[thinkingidx]}
+                            </div>
+                        </div>}
 
                     </div>
                     <div className='p-3 border-t border-white/10'>
