@@ -4,9 +4,11 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { serverUrl } from '../App'
 import { useState } from 'react'
-import { Code2, Monitor, Rocket, Send } from 'lucide-react'
+import { Code2, Monitor, Rocket, Send, X } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import Editor from '@monaco-editor/react'
 
-function Editor() {
+function WebEditor() {
 
     const { id } = useParams()
     const [website, Setwebsite] = useState(null)
@@ -17,6 +19,8 @@ function Editor() {
     const [prompt, Setprompt] = useState("")
     const [updateLoading, SetupdateLoading] = useState(false)
     const [thinkingidx, Setthinkingidx] = useState(0)
+    const [showCode, SetshowCode] = useState(false)
+
     const thinkingSteps = [
         "Understanding your request...",
         "Planning layout changes...",
@@ -132,13 +136,36 @@ function Editor() {
                     <div className='flex gap-2'>
                         <button className='flex items-center gap-2 px-4 py-1.5 rounded-lg bg-linear-to-r from-indigo-500 to-purple-500
                         text-sm font-semibold hover:scale-105 transition'><Rocket size={14} />Deploy</button>
-                        <button className='p-2'><Code2 size={18} /></button>
+                        <button onClick={() => SetshowCode(true)} className='p-2'><Code2 size={18} /></button>
                         <button className='p-2'><Monitor size={18} /></button>
                     </div>
 
                 </div>
                 <iframe ref={iframeRef} className='flex-1 w-full bg-white' />
             </div>
+
+            <AnimatePresence>
+                {showCode && (
+                    <motion.div
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        className='fixed inset-y-0 right-0 w-full lg:w-[45%] z-[9999] 
+                    bg-[#1e1e1e] flex flex-col'>
+                        <div className='h-12 px-4 flex justify-between items-center border-b border-white/10
+                        bg-[#1e1e1e]'>
+                            <span className='text-sm font-medium'>index.html</span>
+                            <button onClick={() => SetshowCode(false)}><X size={18} /></button>
+                        </div>
+                        <Editor  
+                        // height="92vh"
+                        theme="vs-dark"
+                        value={code}
+                        language='html'
+                        onChange={(v)=>Setcode(v)}/>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
         </div>
     )
@@ -154,4 +181,4 @@ function Editor() {
 
 }
 
-export default Editor
+export default WebEditor
