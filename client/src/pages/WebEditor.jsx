@@ -20,6 +20,7 @@ function WebEditor() {
     const [updateLoading, SetupdateLoading] = useState(false)
     const [thinkingidx, Setthinkingidx] = useState(0)
     const [showCode, SetshowCode] = useState(false)
+    const [showfullPreview, SetshowfullPreview] = useState(false)
 
     const thinkingSteps = [
         "Understanding your request...",
@@ -61,7 +62,7 @@ function WebEditor() {
                 Setmessages(result.data.conversation)
             } catch (error) {
                 console.log(error)
-                Seterror(error.response.data.message)
+                Seterror(error.response?.data?.message)
             }
         }
         handelGetWebsite()
@@ -137,7 +138,7 @@ function WebEditor() {
                         <button className='flex items-center gap-2 px-4 py-1.5 rounded-lg bg-linear-to-r from-indigo-500 to-purple-500
                         text-sm font-semibold hover:scale-105 transition'><Rocket size={14} />Deploy</button>
                         <button onClick={() => SetshowCode(true)} className='p-2'><Code2 size={18} /></button>
-                        <button className='p-2'><Monitor size={18} /></button>
+                        <button onClick={() => SetshowfullPreview(true)} className='p-2'><Monitor size={18} /></button>
                     </div>
 
                 </div>
@@ -157,12 +158,25 @@ function WebEditor() {
                             <span className='text-sm font-medium'>index.html</span>
                             <button onClick={() => SetshowCode(false)}><X size={18} /></button>
                         </div>
-                        <Editor  
-                        // height="92vh"
-                        theme="vs-dark"
-                        value={code}
-                        language='html'
-                        onChange={(v)=>Setcode(v)}/>
+                        <Editor
+                            // height="92vh"
+                            theme="vs-dark"
+                            value={code}
+                            language='html'
+                            onChange={(v) => Setcode(v)} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {showfullPreview && (
+                    <motion.div
+                        className='fixed inset-0 bg-black z-[9999]'>
+                        <iframe className='w-full h-full bg-white' srcDoc={code || "<h1>Loading...</h1>"}></iframe>
+                        <button
+                            className='absolute top-4 right-4 p-2 bg-black/70
+                        rounded-lg'
+                            onClick={() => SetshowfullPreview(false)}><X /></button>
                     </motion.div>
                 )}
             </AnimatePresence>
