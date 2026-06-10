@@ -187,13 +187,14 @@ export const generateWebiste = async (req, res) => {
             latestCode: parsed.code,
             conversation: [
                 {
-                    role: "ai",
-                    content: parsed.message
-                },
-                {
                     role: "user",
                     content: prompt
+                },
+                {
+                    role: "ai",
+                    content: parsed.message
                 }
+
             ]
         })
         user.credits = user.credits - 50
@@ -247,20 +248,21 @@ export const changes = async (req, res) => {
         }
 
         const updatePrompt = `
-    UPDATE THIS HTML WEBSITE.
+UPDATE THIS HTML WEBSITE.
 
-    CURRENT CODE:
-    ${website.latestCode}
+CURRENT CODE:
+${website.latestCode}
 
-    USER REQUEST:
-    ${prompt}
+USER REQUEST:
+${prompt}
 
-    RETURN RAW JSON ONLY:
-    {
-    "message": "Short confirmation",
-    "code": "<UPDATED FULL HTML>"
-    }
-    `
+RETURN RAW JSON ONLY:
+{
+  "message": "Short confirmation",
+  "code": "<UPDATED FULL HTML>"
+}
+`
+
         let rawres = ""
         let parsed = null
         for (let i = 0; i < 2 && !parsed; i++) {
@@ -269,7 +271,7 @@ export const changes = async (req, res) => {
 
             if (!parsed) {
                 rawres = await generateResponse(updatePrompt)
-                parsed = extractJSON(rawres)
+                parsed = await extractJSON(rawres)
             }
         }
         if (!parsed.code || !parsed) {
