@@ -37,6 +37,7 @@ const websiteSchema = new mongoose.Schema({
     },
     slug: {
         type: String,
+        
     }
 }, { timestamps: true })
 
