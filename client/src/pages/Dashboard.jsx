@@ -20,7 +20,6 @@ function Dashboard() {
             Setloading(true)
             try {
                 const result = await axios.get(`${serverUrl}/api/website/getAll`, { withCredentials: true })
-                console.log(result)
                 Setwebsites(result.data || [])
                 Setloading(false)
             } catch (error) {
@@ -31,6 +30,16 @@ function Dashboard() {
         }
         handelGetAllWebsites()
     }, [])
+
+    const handelDeploy = async (id) => {
+        try {
+            const result = await axios.get(`${serverUrl}/api/website/deploy/${id}`, { withCredentials: true })
+            console.log(result)
+            window.open(`${result.data.url}`, "_blank")
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="min-h-screen bg-[#050505] text-white">
@@ -91,15 +100,16 @@ function Dashboard() {
                                     {!w.deployed ? (
                                         <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2 
                                         rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-500 to-purple-500 
-                                        hover:scale-105 transition">
+                                        hover:scale-105 transition"
+                                            onClick={() => handelDeploy(w._id)}>
                                             <Rocket /> Deploy
                                         </button>
                                     ) :
-                                        <button>
+                                        <button className="">
                                             <Share2 /> Share
                                         </button>
                                     }
-                                    
+
                                 </div>
 
                             </motion.div>
