@@ -103,6 +103,7 @@ function Dashboard() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.05 }}
                                 whileHover={{ y: -6 }}
+                                onClick={() => navigate(`/editor/${w._id}`)}
                                 className="rounded-2xl bg-white/5 border overflow-hidden
                                 border-white/10 hover:bg-white/10 transition flex flex-col">
 
@@ -124,7 +125,10 @@ function Dashboard() {
                                         </button>
                                     ) :
                                         <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2"
-                                            onClick={() => handelCopyLink(w)}>
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                handelCopyLink(w)
+                                            }}>
                                             {copied ? (
                                                 <>
                                                     <Check size={14} /> Link Copied
