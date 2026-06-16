@@ -1,4 +1,4 @@
-import { ArrowLeft, Rocket, Share2 } from "lucide-react"
+import { ArrowLeft, Check, Rocket, Share2 } from "lucide-react"
 import React from "react"
 import { motion } from "motion/react"
 import { useSelector } from "react-redux"
@@ -14,6 +14,7 @@ function Dashboard() {
     const { userData } = useSelector(state => state.user)
     const [websites, Setwebsites] = useState(null)
     const [loading, Setloading] = useState(false)
+    const [copyID, SetcopyID] = useState(null)
 
     useEffect(() => {
         const handelGetAllWebsites = async () => {
@@ -36,6 +37,20 @@ function Dashboard() {
             const result = await axios.get(`${serverUrl}/api/website/deploy/${id}`, { withCredentials: true })
             console.log(result)
             window.open(`${result.data.url}`, "_blank")
+            Setwebsites((prev) =>
+                prev.map((w) =>
+                    w._id === id ?
+                        { ...w, deployed: true, deployURL: result.data.url } : w))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handelCopyLink = async (site) => {
+        try {
+            await navigator.clipboard.writeText(site.deployURL)
+            SetcopyID(site._id)
+            setTimeout(() => SetcopyID(null), 2000);
         } catch (error) {
             console.log(error)
         }
@@ -78,8 +93,11 @@ function Dashboard() {
 
                 {!loading && websites?.length > 0 && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                        {websites.map((w, i) => (
-                            <motion.div
+                        {websites.map((w, i) => {
+
+                            const copied = copyID === w._id
+
+                            return <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -105,15 +123,23 @@ function Dashboard() {
                                             <Rocket /> Deploy
                                         </button>
                                     ) :
-                                        <button className="">
-                                            <Share2 /> Share
+                                        <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2"
+                                            onClick={() => handelCopyLink(w)}>
+                                            {copied ? (
+                                                <>
+                                                    <Check size={14} /> Link Copied
+                                                </>
+                                            ) :
+                                                <>
+                                                    <Share2 size={14} /> Share Link
+                                                </>}
                                         </button>
                                     }
 
                                 </div>
 
                             </motion.div>
-                        ))}
+                        })}
                     </div>
                 )}
 
