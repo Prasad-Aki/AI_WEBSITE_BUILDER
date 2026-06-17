@@ -124,7 +124,7 @@ function Dashboard() {
                                             <Rocket /> Deploy
                                         </button>
                                     ) :
-                                        <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2"
+                                        <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-black bg-amber-50"
                                             onClick={(e) => {
                                                 e.stopPropagation()
                                                 handelCopyLink(w)

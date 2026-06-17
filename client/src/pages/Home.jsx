@@ -43,12 +43,14 @@ function Home() {
                         GenWen.ai
                     </div>
                     <div className="flex items-center gap-5">
-                        <div className="hidden md:inline text-zinc-400 hover:text-white cursor-pointer">
+                        <div className="hidden md:inline text-zinc-400 hover:text-white cursor-pointer"
+                            onClick={() => navigate("/pricing")}>
                             Pricing
                         </div>
-                        
+
                         {userData && <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5
-                        border border-white/5 text-sm cursor-pointer hover:bg-white/10 transition">
+                        border border-white/5 text-sm cursor-pointer hover:bg-white/10 transition"
+                            onClick={() => navigate("/pricing")}>
                             <Coins className="text-yellow-400" />
                             <span className="text-zinc-300">Credits</span>
                             <span>{userData.credits}</span>
@@ -108,7 +110,7 @@ function Home() {
                 </motion.p>
 
                 <button onClick={() => navigate("/dashboard")} className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
-                    {userData?"Go to Dashboard":"Get Started"}
+                    {userData ? "Go to Dashboard" : "Get Started"}
                 </button>
 
             </section>
