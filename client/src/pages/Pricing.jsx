@@ -2,6 +2,7 @@ import { ArrowLeft, Check, Coins } from "lucide-react"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
+import { handleBuyPlan } from "./Billing"
 
 function Pricing() {
 
@@ -125,6 +126,7 @@ function Pricing() {
 
                         <motion.button
                             whileTap={{ scale: 0.96 }}
+                            onClick={() => handleBuyPlan(p.key)}
                             className={`w-full py-3 px-4 rounded-xl font-semibold transition
                         ${p.popular
                                     ? "bg-indigo-500 hover:bg-indigo-500"
