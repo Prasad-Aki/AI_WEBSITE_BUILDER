@@ -1,6 +1,8 @@
 import React from "react"
 import axios from "axios"
 import { serverUrl } from "../App"
+import { store } from "../redux/store"
+import { updateCredits } from "../redux/userSlice"
 
 export const handleBuyPlan = async (planType) => {
     try {
@@ -35,6 +37,9 @@ export const handleBuyPlan = async (planType) => {
                     )
 
                     console.log(verify.data)
+                    if (verify.data.credits !== undefined) {
+                        store.dispatch(updateCredits(verify.data.credits))
+                    }
 
                     alert("Credits Added Successfully")
 

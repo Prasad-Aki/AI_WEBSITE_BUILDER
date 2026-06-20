@@ -181,6 +181,10 @@ export const generateWebiste = async (req, res) => {
             }
         }
 
+        if (!parsed || !parsed.code) {
+            return res.status(502).json({ message: "Failed to generate website. The AI did not return a valid response. Please try again." })
+        }
+
         const website = await Website.create({
             user: user._id,
             title: prompt,
@@ -274,8 +278,9 @@ RETURN RAW JSON ONLY:
                 parsed = await extractJSON(rawres)
             }
         }
-        if (!parsed.code || !parsed) {
+        if (!parsed || !parsed.code) {
             console.log("ai returned invalid response")
+            return res.status(502).json({ message: "Failed to update website. The AI did not return a valid response. Please try again." })
         }
 
         website.conversation.push(
@@ -338,16 +343,16 @@ export const deploy = async (req, res) => {
 export const getBySlug = async (req, res) => {
     try {
         const website = await Website.findOne({
-            slug: req.params.slug,
-            user: req.user._id
+            slug: req.params.slug
         })
 
         if (!website) {
-            return res.status(400).json({ message: "website not found" })
+            return res.status(404).json({ message: "website not found" })
         }
 
         return res.status(200).json(website)
     } catch (error) {
         console.log(error)
+        return res.status(500).json({ message: "error fetching deployed website" })
     }
 } 

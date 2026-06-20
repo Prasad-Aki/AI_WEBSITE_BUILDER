@@ -7,10 +7,13 @@ import { useState } from 'react'
 import { Code2, MessageSquare, Monitor, Rocket, Send, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import Editor from '@monaco-editor/react'
+import { useDispatch } from 'react-redux'
+import { updateCredits } from '../redux/userSlice'
 
 function WebEditor() {
 
     const { id } = useParams()
+    const dispatch = useDispatch()
     const [website, Setwebsite] = useState(null)
     const [error, Seterror] = useState("")
     const iframeRef = useRef(null)
@@ -40,6 +43,9 @@ function WebEditor() {
             SetupdateLoading(false)
             Setmessages((m) => [...m, { role: "ai", content: result.data.message }])
             Setcode(result.data.code)
+            if (result.data.remainingcredits !== undefined) {
+                dispatch(updateCredits(result.data.remainingcredits))
+            }
         } catch (error) {
             SetupdateLoading(false)
             console.log(error)
@@ -98,6 +104,7 @@ function WebEditor() {
         try {
             const result = await axios.get(`${serverUrl}/api/website/deploy/${website._id}`, { withCredentials: true })
             console.log(result)
+            Setwebsite(prev => ({ ...prev, deployed: true }))
             window.open(`${result.data.url}`, "_blank")
         } catch (error) {
             console.log(error)
@@ -159,7 +166,7 @@ function WebEditor() {
                     </div>
 
                 </div>
-                <iframe ref={iframeRef} className='flex-1 w-full bg-white' />
+                <iframe ref={iframeRef} className='flex-1 w-full bg-white' sandbox="allow-scripts allow-forms" />
             </div>
 
             <AnimatePresence>

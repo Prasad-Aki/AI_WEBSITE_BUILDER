@@ -6,9 +6,12 @@ import { useState } from "react"
 import axios from "axios"
 import { serverUrl } from "../App"
 import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { updateCredits } from "../redux/userSlice"
 
 function Generate() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [prompt, Setprompt] = useState("")
     const [loading, Setloading] = useState(false)
     const PHASES = [
@@ -26,6 +29,9 @@ function Generate() {
         try {
             const result = await axios.post(`${serverUrl}/api/website/generate`, { prompt }, { withCredentials: true })
             console.log(result)
+            if (result.data.remainingcredits !== undefined) {
+                dispatch(updateCredits(result.data.remainingcredits))
+            }
             Setprogress(100)
             Setloading(false)
             navigate(`/editor/${result.data.websiteId}`)

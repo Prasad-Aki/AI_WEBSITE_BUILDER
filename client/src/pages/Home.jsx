@@ -40,7 +40,7 @@ function Home() {
                 className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
                     <div className="text-lg font-semibold">
-                        GenWen.ai
+                        GenWeb.ai
                     </div>
                     <div className="flex items-center gap-5">
                         <div className="hidden md:inline text-zinc-400 hover:text-white cursor-pointer"
@@ -109,7 +109,7 @@ function Home() {
                     responsive, productive-ready website.
                 </motion.p>
 
-                <button onClick={() => navigate("/dashboard")} className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
+                <button onClick={() => userData ? navigate("/dashboard") : SetopenLogin(true)} className="px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition mt-12 cursor-pointer">
                     {userData ? "Go to Dashboard" : "Get Started"}
                 </button>
 
