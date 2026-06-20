@@ -8,7 +8,7 @@ import Generate from "./pages/Generate.jsx"
 import WebEditor from "./pages/WebEditor.jsx"
 import LiveSite from "./pages/LiveSite.jsx"
 import Pricing from "./pages/Pricing.jsx"
-export const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:8000"
+export const serverUrl = "https://ai-website-builder-5bns.onrender.com"
 
 function App() {
   UseGetCurrentUser()
