@@ -34,7 +34,7 @@ function WebEditor() {
         "Finalizing update...",
     ]
 
-    const handelUpdate = async () => {
+    const handleUpdate = async () => {
         SetupdateLoading(true)
         Setmessages((m) => [...m, { role: "user", content: prompt }])
         Setprompt("")
@@ -61,7 +61,7 @@ function WebEditor() {
     }, [updateLoading])
 
     useEffect(() => {
-        const handelGetWebsite = async () => {
+        const handleGetWebsite = async () => {
             try {
                 const result = await axios.get(`${serverUrl}/api/website/get-by-id/${id}`, { withCredentials: true })
                 Setwebsite(result.data)
@@ -72,7 +72,7 @@ function WebEditor() {
                 Seterror(error.response?.data?.message)
             }
         }
-        handelGetWebsite()
+        handleGetWebsite()
     }, [id])
 
     useEffect(() => {
@@ -100,7 +100,7 @@ function WebEditor() {
         )
     }
 
-    const handelDeploy = async () => {
+    const handleDeploy = async () => {
         try {
             const result = await axios.get(`${serverUrl}/api/website/deploy/${website._id}`, { withCredentials: true })
             console.log(result)
@@ -142,7 +142,7 @@ function WebEditor() {
                         border border-white/10 text-sm outline-none'  placeholder='Describe Changes...'
                                 onChange={(e) => Setprompt(e.target.value)} value={prompt} />
                             <button className='px-3 py-3 bg-white text-black rounded-2xl'
-                                onClick={handelUpdate}><Send size={14} /></button>
+                                onClick={handleUpdate}><Send size={14} /></button>
                         </div>
                     </div>
                 </>
@@ -156,7 +156,7 @@ function WebEditor() {
                         {website.deployed ? "" :
                             <button className='flex items-center gap-2 px-4 py-1.5 rounded-lg bg-linear-to-r from-indigo-500 to-purple-500
                         text-sm font-semibold hover:scale-105 transition'
-                                onClick={handelDeploy}><Rocket size={14} />Deploy</button>
+                                onClick={handleDeploy}><Rocket size={14} />Deploy</button>
                                 }
 
                         <button className='p-2 lg:hidden' onClick={() => SetshowChat(true)}><MessageSquare size={18} /></button>
@@ -241,7 +241,7 @@ function WebEditor() {
                         border border-white/10 text-sm outline-none'  placeholder='Describe Changes...'
                                         onChange={(e) => Setprompt(e.target.value)} value={prompt} />
                                     <button className='px-3 py-3 bg-white text-black rounded-2xl'
-                                        onClick={handelUpdate}><Send size={14} /></button>
+                                        onClick={handleUpdate}><Send size={14} /></button>
                                 </div>
                             </div>
                         </>

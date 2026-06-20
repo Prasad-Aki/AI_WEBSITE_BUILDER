@@ -1,12 +1,12 @@
 import axios from "axios"
 
-const openRourterUrl = "https://openrouter.ai/api/v1/chat/completions"
+const openRouterUrl = "https://openrouter.ai/api/v1/chat/completions"
 const model = "deepseek/deepseek-chat"
 
 export const generateResponse = async (prompt) => {
     try {
         const res = await axios.post(
-            openRourterUrl,
+            openRouterUrl,
             {
                 model: model,
                 messages: [
@@ -22,7 +22,7 @@ export const generateResponse = async (prompt) => {
             },
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.OPENROURTER_API_KEY}`,
+                    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY || process.env.OPENROURTER_API_KEY}`,
                     'Content-Type': 'application/json',
                 }
             }

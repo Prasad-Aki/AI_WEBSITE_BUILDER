@@ -11,7 +11,7 @@ function LiveSite() {
     const [html, Sethtml] = useState("")
 
     useEffect(() => {
-        const handelGetWebsite = async () => {
+        const handleGetWebsite = async () => {
             try {
                 const result = await axios.get(`${serverUrl}/api/website/get-by-slug/${id}`, { withCredentials: true })
                 Sethtml(result.data.latestCode)
@@ -20,7 +20,7 @@ function LiveSite() {
                 console.log("site not found" + error)
             }
         }
-        handelGetWebsite()
+        handleGetWebsite()
     }, [id])
 
 

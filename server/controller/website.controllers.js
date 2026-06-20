@@ -1,4 +1,4 @@
-import { generateResponse } from "../config/openRourter.js"
+import { generateResponse } from "../config/openRouter.js"
 import User from "../models/user.model.js"
 import Website from "../models/website.model.js"
 import extractJSON from "../utils/extractJSON.js"
@@ -152,7 +152,7 @@ ABSOLUTE RULES
 `
 
 
-export const generateWebiste = async (req, res) => {
+export const generateWebsite = async (req, res) => {
     try {
         const { prompt } = req.body
         if (!prompt) {
@@ -164,7 +164,7 @@ export const generateWebiste = async (req, res) => {
         }
 
         if (user.credits < 50) {
-            return res.status(400).json({ message: "you not have enough credits " })
+            return res.status(400).json({ message: "You do not have enough credits" })
         }
 
         const finalPrompt = masterPrompt.replace("{USER_PROMPT}", prompt)
@@ -248,7 +248,7 @@ export const changes = async (req, res) => {
         }
 
         if (user.credits < 25) {
-            return res.status(400).json({ message: "you not have enough credits " })
+            return res.status(400).json({ message: "You do not have enough credits" })
         }
 
         const updatePrompt = `

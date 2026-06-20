@@ -2,7 +2,7 @@ import { PLANS } from "../config/plan.js"
 import razorpay from "../config/razorpay.js"
 import crypto from "crypto"
 import User from "../models/user.model.js"
-import Payment from "../models/payment.model.js"
+import Payment from "../models/Payment.model.js"
 
 export const billing = async (req, res) => {
     try {

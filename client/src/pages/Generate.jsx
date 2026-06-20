@@ -24,7 +24,7 @@ function Generate() {
     const [progress, Setprogress] = useState(0)
     const [phaseidx, Setphaseidx] = useState(0)
 
-    const handelGenerateWebsite = async () => {
+    const handleGenerateWebsite = async () => {
         Setloading(true)
         try {
             const result = await axios.post(`${serverUrl}/api/website/generate`, { prompt }, { withCredentials: true })
@@ -116,7 +116,7 @@ function Generate() {
                             "bg-white text-black"
                             : "bg-white/20 text-zinc-400 cursor-not-allowed"
                             }`}
-                        onClick={handelGenerateWebsite}>
+                        onClick={handleGenerateWebsite}>
                         Generate Website
                     </motion.button>
                 </div>

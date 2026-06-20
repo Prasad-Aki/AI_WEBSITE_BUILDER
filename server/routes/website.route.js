@@ -1,10 +1,10 @@
 import express from "express"
 import isAuth from "../middleware/isAuth.js"
-import { changes, deploy, generateWebiste, getAll, getBySlug, getWebsiteById } from "../controller/website.controllers.js"
+import { changes, deploy, generateWebsite, getAll, getBySlug, getWebsiteById } from "../controller/website.controllers.js"
 
 const websiteRouter = express.Router()
 
-websiteRouter.post("/generate", isAuth, generateWebiste)
+websiteRouter.post("/generate", isAuth, generateWebsite)
 websiteRouter.get("/get-by-id/:id", isAuth, getWebsiteById)
 websiteRouter.post("/update/:id", isAuth, changes)
 websiteRouter.get("/getAll", isAuth, getAll)

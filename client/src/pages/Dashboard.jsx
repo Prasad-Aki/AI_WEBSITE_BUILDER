@@ -17,7 +17,7 @@ function Dashboard() {
     const [copyID, SetcopyID] = useState(null)
 
     useEffect(() => {
-        const handelGetAllWebsites = async () => {
+        const handleGetAllWebsites = async () => {
             Setloading(true)
             try {
                 const result = await axios.get(`${serverUrl}/api/website/getAll`, { withCredentials: true })
@@ -29,10 +29,10 @@ function Dashboard() {
             }
 
         }
-        handelGetAllWebsites()
+        handleGetAllWebsites()
     }, [])
 
-    const handelDeploy = async (id) => {
+    const handleDeploy = async (id) => {
         try {
             const result = await axios.get(`${serverUrl}/api/website/deploy/${id}`, { withCredentials: true })
             console.log(result)
@@ -46,7 +46,7 @@ function Dashboard() {
         }
     }
 
-    const handelCopyLink = async (site) => {
+    const handleCopyLink = async (site) => {
         try {
             await navigator.clipboard.writeText(site.deployURL)
             SetcopyID(site._id)
@@ -120,14 +120,14 @@ function Dashboard() {
                                         <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2 
                                         rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-500 to-purple-500 
                                         hover:scale-105 transition"
-                                            onClick={() => handelDeploy(w._id)}>
+                                            onClick={() => handleDeploy(w._id)}>
                                             <Rocket /> Deploy
                                         </button>
                                     ) :
                                         <button className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-black bg-amber-50"
                                             onClick={(e) => {
                                                 e.stopPropagation()
-                                                handelCopyLink(w)
+                                                handleCopyLink(w)
                                             }}>
                                             {copied ? (
                                                 <>
