@@ -14,7 +14,6 @@ const port = process.env.PORT || 5000
 
 app.use(express.json())   // when data comes from frontend in body it is null so we use this middleware then data comes in json format
 app.use(cookieParser())
-console.log("FRONTEND_URL:", process.env.FRONTEND_URL)
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true
