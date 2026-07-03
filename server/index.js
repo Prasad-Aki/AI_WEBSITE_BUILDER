@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000
 app.use(express.json())   // when data comes from frontend in body it is null so we use this middleware then data comes in json format
 app.use(cookieParser())
 app.use(cors({
-    origin: "https://ai-website-builder-1-b4xk.onrender.com",
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }))
 app.use("/api/auth", authRouter)
