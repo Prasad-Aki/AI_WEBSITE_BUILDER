@@ -19,14 +19,6 @@ app.use(cors({
     credentials: true
 }))
 
-app.get("/", (req, res) => {
-    res.send("Backend is working");
-});
-
-app.get("/test", (req, res) => {
-    res.send("TEST OK");
-});
-
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/website", websiteRouter)

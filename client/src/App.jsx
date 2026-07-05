@@ -8,7 +8,7 @@ import Generate from "./pages/Generate.jsx"
 import WebEditor from "./pages/WebEditor.jsx"
 import LiveSite from "./pages/LiveSite.jsx"
 import Pricing from "./pages/Pricing.jsx"
-export const serverUrl = "https://ai-website-builder-backend-blj7.onrender.com"
+export const serverUrl = "https://ai-website-builder-backend-b1j7.onrender.com"
 
 function App() {
   UseGetCurrentUser()
