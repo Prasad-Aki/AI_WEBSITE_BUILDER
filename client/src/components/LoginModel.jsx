@@ -66,7 +66,7 @@ function LoginModel({ open, onClose }) {
                                 onClick={handleGoogleAuth}
                                 className="group relative w-full h-13 rounded-xl bg-white text-black font-semibold shadow-xl overflow-hidden">
                                 <div className="relative flex items-center justify-center gap-3">
-                                    <img src="/public/google.svg" className="h-5 w-5 " />
+                                    <img src="/google.svg" className="h-5 w-5 " />
                                     Continue with Google
                                 </div>
                             </motion.button>
