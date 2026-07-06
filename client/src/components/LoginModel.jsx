@@ -11,13 +11,17 @@ function LoginModel({ open, onClose }) {
     const dispatch = useDispatch()
 
     const handleGoogleAuth = async () => {
+        console.log("Google button clicked");
         try {
+
             const result = await signInWithPopup(auth, provider)
+            console.log("Firebase success", result);
             const { data } = await axios.post(`${serverUrl}/api/auth/google`, {
                 name: result.user.displayName,
                 email: result.user.email,
                 avatar: result.user.photoURL
             }, { withCredentials: true })
+               console.log("Backend success", data);
             dispatch(setuserData(data))
             onClose()
         } catch (error) {
